@@ -1,0 +1,35 @@
+name: Run Market Scanner
+
+# Triggers:
+# 1. 'workflow_dispatch' lets you click a "Run" button manually.
+# 2. 'schedule' runs it automatically (Optional).
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs at 12:00 UTC (approx 5:30 PM India time) every weekday
+    - cron: '0 12 * * 1-5'
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Check out your code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Install Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # 3. Install Libraries (Automatic)
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    # 4. Run your Scanner
+    - name: Run Deep Value Script
+      run: |
+        python deep_value.py
